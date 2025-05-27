@@ -1,0 +1,762 @@
+Project Description:
+You are asked to build a Sales Dashboard application using React. In this application a sale data entity consists of three fields; saleTotal, buyerName and creditCard. You will find the data in sales.json file in the public folder.
+
+The application requires four dashboard reports. Implement relevant calculations in src/Main/Reports.js and use them in src/Main/Dashboard.jsx file. 
+
+1. Total Sale Report: Implement calculateTotalSales  in src/Main/Reports.js. You must return the sum of all sales.
+2. Total Cash Sale Report: Implement calculateTotalCashSale function in src/Main/Reports.js. You must return the sum of all sales where creditCard attribute is false.
+3. Total Credit Card Sale Report: Implement calculateTotalCreditSale function in src/Main/Reports.js. You must return the sum of all sales where creditCard attribute is true.
+4. Buyer With Most Sale: Implement calculateBuyerWithMostSale function in src/Main/Reports.js. You must return the buyer with the most saleTotal. Thus, if Loron Chaun is the person with the most purchased items, return Loron Chaun and sum of the purchases he made. Return format must be {"buyerName": "Loron Chaun", "saleTotal": 34000}. The sales.json may or may not contain above names and figures. The above example is just to demonstrate the expected data format. 
+
+Your task is to complete the function defined in the file below:
+1. src/Main/Reports.js
+2. src/Main/Dashboard.jsx
+
+Notes:
+1. It is given that each report has a different implementation, but each function will require the sale data. Use getSalesData function in src/Main/Reports.js to fetch sales data. getSalesData function is already implemented for you. 
+2. Do not change file names, class names , method  declarations. 
+3. Use Test App & Submit option often so you will be guided by test error messages.
+
+Testing & Submitting your code:
+
+
+
+Step 1: Click on the WeCP Projects Button.
+Step 2: Click on Start frontend server to start the react server.
+Step 3: Click on Open Preview to view the GUI.
+Step 4: Click on Test & Submit app button to test your code.
+Step 5: You will receive a congratulations message upon successful completion of the task.
+
+import axios from "axios";
+
+export const getSalesData = async () => {
+  let { data } = await axios.get(`/sales.json`);
+  return data;
+};
+
+export const calculateTotalSales = (sales) => {
+ 
+};
+
+export const calculateTotalCashSale = (sales) => {
+ 
+};
+
+export const calculateTotalCreditSale = (sales) => {
+  
+};
+
+export const calculateBuyerWithMostSale = (sales) => {
+ 
+  
+};
+
+
+import React from "react";
+
+import "./Dashboard.css";
+
+function Dashboard() {
+  return (
+    <div className="dashboard">
+      <div className="card">
+        <h2>Total Sales</h2>
+        <p>{totalSales}</p>
+      </div>
+      <div className="card">
+        <h2>Total Cash Sales</h2>
+        <p>{totalCashSales}</p>
+      </div>
+      <div className="card">
+        <h2>Total Credit Sales</h2>
+        <p>{totalCreditSales}</p>
+      </div>
+      <div className="card">
+        <h2>Buyer with Most Sales</h2>
+        <p>{mostSalesBuyer.buyerName}</p>
+        <p>{mostSalesBuyer.saleTotal}</p>
+      </div>
+    </div>
+  );
+}
+
+export default Dashboard;
+
+
+
+
+report.js
+------------------------------
+import axios from "axios";
+ 
+export const getSalesData = async () => {
+  let { data } = await axios.get(`/sales.json`);
+  return data;
+};
+ 
+export const calculateTotalSales = (sales) => {
+  return sales.reduce((sum, sale) => sum + sale.saleTotal, 0);
+};
+ 
+export const calculateTotalCashSale = (sales) => {
+  return sales
+    .filter(sale => !sale.creditCard)
+    .reduce((sum, sale) => sum + sale.saleTotal, 0);
+};
+ 
+export const calculateTotalCreditSale = (sales) => {
+  return sales
+    .filter(sale => sale.creditCard)
+    .reduce((sum, sale) => sum + sale.saleTotal, 0);
+};
+ 
+export const calculateBuyerWithMostSale = (sales) => {
+  const buyerMap = {};
+ 
+  for (let sale of sales) {
+    if (!buyerMap[sale.buyerName]) {
+      buyerMap[sale.buyerName] = 0;
+    }
+    buyerMap[sale.buyerName] += sale.saleTotal;
+  }
+ 
+  let maxBuyer = null;
+  let maxSale = 0;
+ 
+  for (let buyer in buyerMap) {
+    if (buyerMap[buyer] > maxSale) {
+      maxSale = buyerMap[buyer];
+      maxBuyer = buyer;
+    }
+  }
+ 
+  return {
+    buyerName: maxBuyer,
+    saleTotal: maxSale
+  };
+};
+
+
+dashboard.js
+--------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MS1_W1_D2_Bank Management System Form - HTML and CSS Styling
+Type: Programming
+Skill: HTML/CSS
+CSS
+HTML
+FORMS
+Medium
+20 min
+You are tasked with creating a Bank Management System form using HTML and CSS. The form will be used for collecting customer information during account creation. Your goal is to apply different types of CSS styles (Inline, External, and Embedded) to format and enhance the appearance of the form.
+
+
+
+1.   Create the HTML Form: Design an HTML form that includes input fields for the following customer information:
+
+ 
+
+a)   Full Name (text input)
+
+b)   Date of Birth (date input)
+
+c)   Gender (radio buttons for Male and Female)
+
+d)   Address (text area input)
+
+e)   Account Type (select dropdown with options: Savings, Current, Fixed Deposit)
+
+f)    Initial Deposit (number input)
+
+g)   Agree to Terms and Conditions (checkbox)
+
+ 
+
+2.   Apply Inline CSS: Use inline CSS to style the form elements, such as setting different font styles, colors, and alignments. Apply inline styles directly within the HTML tags to give the form a basic visual appeal.
+
+ 
+
+3.   Create an External CSS File: Create a separate CSS file (e.g., styles.css) and link it to the HTML page using the <link> tag. In the external CSS file, apply styles to the form elements to make it visually attractive. Use CSS classes and IDs to target specific elements and apply styles accordingly.
+
+ 
+
+4.   Use Embedded CSS: Within the <head> section of the HTML page, embed CSS styles to modify the appearance of the form elements. These embedded styles should complement the external and inline styles and should not conflict with them.
+
+ 
+
+5.   Implement Responsive Design: Use CSS media queries to create a responsive design that adjusts the layout and font size based on different screen sizes. The form should be user-friendly and visually appealing on both desktop and mobile devices.
+
+ 
+
+6.   Validate the CSS: Ensure that the CSS code is valid and does not contain any syntax errors.
+
+ 
+
+7.   Use CSS Comments: Include comments in the CSS code to explain the purpose of specific styles and provide a clear understanding of your implementation.
+
+ body {
+   /* //set background gray */
+}
+
+/* Styling for transaction list items */
+.deposit {
+    /* set color to green */
+}
+
+.withdrawal {
+/* set color is red */
+}
+
+/* Style links to have a custom color when hovered over */
+a:hover {
+    color: blue;
+}
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Transactions</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="./index.css">
+</head>
+<body>
+    <h1>Account Transactions</h1>
+    <label for="transactionType">Select Transaction Type:</label>
+    <!-- //create select with id transactionType -->
+
+    <!-- //create ul wit id transactionList -->
+
+
+  
+</body>
+<script  src="./index.js" ></script>
+</html>
+
+
+
+
+
+
+
+  // Sample transactions (type: deposit or withdrawal)
+  const transactions = [
+    { type: "deposit", amount: 100 },
+    { type: "withdrawal", amount: 50 },
+    { type: "deposit", amount: 200 },
+    { type: "withdrawal", amount: 30 },
+    { type: "deposit", amount: 150 }
+];
+function getTransactions()
+{
+  // const transactionType =get by id transactionType
+  // const transactionList =transactionList//get by id
+ 
+}
+// Function to filter and display transactions based on the selected type
+function filterTransactions(transactionType,transactionList) {
+   
+    transactionList.innerHTML = ""; // Clear previous transactions
+
+  //complete this function
+
+    
+}
+
+// Initial call to display all transactions
+
+module.exports =filterTransactions
+
+
+
+
+
+
+
+
+
+
+React Project 2 :
+ 
+PatientInformation.js :
+ 
+import React, { useState, useEffect } from 'react';
+import { getPatients } from './PatientService';
+import './App.css';
+ 
+export const PatientInformation = ({ patientID }) => {
+  const [patient, setPatient] = useState(null);
+ 
+  useEffect(() => {
+    const fetchPatient = async () => {
+      const patients = await getPatients();
+      const found = patients.find(p => p.patientID === patientID);
+      setPatient(found || null);
+    };
+ 
+    if (patientID) {
+      fetchPatient();
+    }
+  }, [patientID]);
+ 
+  return (
+    <div className="patient-info-container">
+      {patient ? (
+        <div className="patient-card">
+          <h3>Patient Details</h3>
+          <p>Patient ID: {patient.patientID}</p>
+          <p>Name: {patient.name}</p>
+          <p>Age: {patient.age}</p>
+          <p>Gender: {patient.gender}</p>
+          <p>Condition: {patient.condition}</p>
+          <p>Last Visit: {patient.lastVisit}</p>
+        </div>
+      ) : (
+        <p>No patient found for ID: {patientID}</p>
+      )}
+    </div>
+  );
+};
+ 
+ 
+ 
+ 
+PatientRegistrationForm.js :
+ 
+import React, { useState } from 'react';
+import { addPatient } from './PatientService';
+import './App.css';
+ 
+const PatientRegistrationForm = ({ onRegister }) => {
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    gender: '',
+    condition: '',
+    lastVisit: '',
+  });
+ 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+ 
+  const isValidDate = (dateString) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(dateString);
+  };
+ 
+  const validateForm = () => {
+    const errs = {};
+    if (!formData.name.trim()) errs.name = 'Name is required';
+    if (!formData.age) errs.age = 'Age is required';
+    else if (isNaN(formData.age) || formData.age <= 0) errs.age = 'Age must be a positive number';
+    if (!formData.gender) errs.gender = 'Gender is required';
+    if (!formData.condition.trim()) errs.condition = 'Condition is required';
+    if (!formData.lastVisit.trim()) errs.lastVisit = 'Last Visit is required';
+    else if (!isValidDate(formData.lastVisit)) errs.lastVisit = 'Invalid date format (YYYY-MM-DD)';
+ 
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+ 
+    const newPatient = {
+      ...formData,
+      patientID: `P${Date.now().toString().slice(-4)}`
+    };
+ 
+    await addPatient(newPatient);
+    if (onRegister) {
+      onRegister(formData); // matches test expectation
+    }
+    setFormData({ name: '', age: '', gender: '', condition: '', lastVisit: '' });
+    setErrors({});
+  };
+ 
+  return (
+    <form className="patient-form" onSubmit={handleSubmit}>
+      <h3>Register New Patient</h3>
+      <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
+      {errors.name && <div className="error">{errors.name}</div>}
+ 
+      <input name="age" placeholder="Age" value={formData.age} onChange={handleChange} />
+      {errors.age && <div className="error">{errors.age}</div>}
+ 
+      <select name="gender" value={formData.gender} onChange={handleChange}>
+        <option value="">Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+      {errors.gender && <div className="error">{errors.gender}</div>}
+ 
+      <input name="condition" placeholder="Condition" value={formData.condition} onChange={handleChange} />
+      {errors.condition && <div className="error">{errors.condition}</div>}
+ 
+      <input name="lastVisit" placeholder="Last Visit (YYYY-MM-DD)" value={formData.lastVisit} onChange={handleChange} />
+      {errors.lastVisit && <div className="error">{errors.lastVisit}</div>}
+ 
+      <button type="submit">Register Patient</button>
+    </form>
+  );
+};
+ 
+export default PatientRegistrationForm;
+ 
+ 
+ 
+ 
+PatientService.js :
+ 
+ 
+import environment from "./environments/environment.ts"
+const API_URL = environment.apiUrl;
+ 
+export const getPatients = async () => {
+    const response = await fetch(`${API_URL}/patients`);
+    if (!response.ok) throw new Error("Failed to fetch patients");
+    return await response.json();
+};
+ 
+export const addPatient = async (newPatient) => {
+    const response = await fetch(`${API_URL}/patients`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPatient)
+    });
+ 
+    if (!response.ok) throw new Error("Failed to add patient");
+    return await response.json();
+};
+ 
+React 1 :
+ 
+AddProperty.js:
+ 
+ 
+import React, { useState } from 'react';
+
+import PropertyService from './PropertyService';
+
+import './App.css';
+ 
+const AddProperty = () => {
+
+  const [property, setProperty] = useState({
+
+    _id: '',
+
+    type: '',
+
+    location: '',
+
+    price: '',
+
+    rooms: '',
+
+    size: ''
+
+  });
+ 
+  const [error, setError] = useState(null);
+
+  const [message, setMessage] = useState('');
+ 
+  const handleChange = (e) => {
+
+    setProperty({ ...property, [e.target.name]: e.target.value });
+
+  };
+ 
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    setError(null);
+
+    try {
+
+      await PropertyService.addProperty(property);
+
+      setMessage('Property added successfully!');
+
+    } catch (err) {
+
+      setError(err.message);
+
+    }
+
+  };
+ 
+  return (
+<div className="add-property-container">
+<h2>Add New Property</h2>
+
+      {error && <p className="error">{error}</p>}
+
+      {message && <p className="success">{message}</p>}
+<form onSubmit={handleSubmit}>
+
+        {['type', 'location', 'price', 'rooms', 'size', '_id'].map((field) => (
+<div key={field}>
+<label>{field}:</label>
+<input
+
+              name={field}
+
+              value={property[field]}
+
+              onChange={handleChange}
+
+              required
+
+            />
+</div>
+
+        ))}
+<button type="submit">Add Property</button>
+</form>
+</div>
+
+  );
+
+};
+ 
+export default AddProperty;
+
+ 
+ 
+ 
+PropertyList.js :
+ 
+ 
+import React, { useState, useEffect } from 'react';
+
+import PropertyService from './PropertyService';
+
+import { Link } from 'react-router-dom';
+
+import './App.css';
+ 
+const PropertyList = () => {
+
+  const [properties, setProperties] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState(null);
+ 
+  useEffect(() => {
+
+    const fetchProperties = async () => {
+
+      try {
+
+        const data = await PropertyService.getAllProperties();
+
+        setProperties(data);
+
+        setLoading(false);
+
+      } catch (err) {
+
+        setError(err.message);
+
+        setLoading(false);
+
+      }
+
+    };
+ 
+    fetchProperties();
+
+  }, []);
+ 
+  if (loading) return <p>Loading...</p>;
+
+  if (error) return <p>Error: {error}</p>;
+ 
+  return (
+<div className="property-list-container">
+<h2 className="property-list-header">Properties List</h2>
+<ul className="property-list">
+
+        {properties.map((property) => (
+<li key={property._id}>
+<Link to={`/properties/${property._id}`}>
+
+              {property.location} - {property.type}
+</Link>
+</li>
+
+        ))}
+</ul>
+</div>
+
+  );
+
+};
+ 
+export default PropertyList;
+
+ 
+ 
+PropertyDetail.js :
+ 
+ 
+import React, { useState, useEffect } from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import PropertyService from './PropertyService';
+
+import './App.css';
+ 
+const PropertyDetail = () => {
+
+  const { propertyID } = useParams();
+
+  const [property, setProperty] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState(null);
+ 
+  useEffect(() => {
+
+    const fetchProperty = async () => {
+
+      try {
+
+        const data = await PropertyService.getPropertyByID(propertyID);
+
+        setProperty(data[0]); // use first element
+
+        setLoading(false);
+
+      } catch (err) {
+
+        setError(err.message);
+
+        setLoading(false);
+
+      }
+
+    };
+ 
+    fetchProperty();
+
+  }, [propertyID]);
+ 
+  if (loading) return <p>Loading...</p>;
+
+  if (error) return <p>Error: {error}</p>;
+ 
+  return (
+<div className="property-detail-container">
+<h2>Property Details</h2>
+<p>Type: {property.type}</p>
+<p>Location: {property.location}</p>
+<p>Price: {property.price}</p>
+<p>Rooms: {property.rooms}</p>
+<p>Size: {property.size}</p>
+</div>
+
+  );
+
+};
+ 
+export default PropertyDetail;
+
+ 
+ 
+ 
+PropertyService.js :
+ 
+ 
+const API_URL = `http://localhost:3000/properties`;
+ 
+const PropertyService = {
+
+  getAllProperties: async () => {
+
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+
+      throw new Error('Failed to fetch properties');
+
+    }
+
+    return response.json();
+
+  },
+ 
+  getPropertyByID: async (propertyID) => {
+
+    const response = await fetch(`${API_URL}?_id=${propertyID}`);
+
+    if (!response.ok) {
+
+      throw new Error('Failed to fetch property details');
+
+    }
+
+    return response.json(); // returns an array
+
+  },
+ 
+  addProperty: async (newProperty) => {
+
+    const response = await fetch(API_URL, {
+
+      method: 'POST',
+
+      headers: { 'Content-Type': 'application/json' },
+
+      body: JSON.stringify(newProperty),
+
+    });
+
+    if (!response.ok) {
+
+      throw new Error('Failed to add property');
+
+    }
+
+    return response.json();
+
+  },
+
+};
+ 
+export default PropertyService;
+ 
