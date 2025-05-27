@@ -1,0 +1,315 @@
+HTML CODE
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CMS: Article Publishing Interface</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      body {
+        background-color: #1e1e2f;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #fff;
+        margin: 0 auto;
+        padding: 10px;
+      }
+
+      div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 1rem;
+      }
+
+      label {
+        width: 20%;
+      }
+
+      input[type="text"],
+      select,
+      textarea {
+        width: 80%;
+        padding: 8px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.2);
+      }
+
+      a:hover {
+        color: orange;
+      }
+
+      .publish {
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .summary,
+      .error {
+        color: white;
+      }
+
+      .error {
+        background-color: red;
+        flex-direction: column;
+      }
+
+      .error p {
+        text-align: center;
+      }
+
+      .error p::first-letter {
+        text-transform: capitalize;
+      }
+
+      .articles {
+        display: flex;
+        flex-direction: column;
+        width: 51%;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+      }
+
+      .article {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        border: 1px solid #fff;
+        color: white;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+
+      .delete-icon {
+        color: red;
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <h2 style="color: white">CMS: Article Publishing Interface</h2>
+      <div>
+        <label for="title" style="color: white">Article Title</label>
+        <input type="text" id="title" />
+      </div>
+
+      <div>
+        <label for="content" style="color: white">Article Content</label>
+        <textarea id="content" rows="4"></textarea>
+      </div>
+
+      <div>
+        <label for="category" style="color: white">Category</label>
+        <select id="category">
+          <option value="Technology">Technology</option>
+          <option value="Lifestyle">Lifestyle</option>
+          <option value="Business">Business</option>
+        </select>
+      </div>
+
+      <div class="publish">
+        <label for="is_published" style="color: white">Publish</label>
+        <input type="checkbox" id="is_published" />
+      </div>
+
+      <div>
+        <button id="add-article">Submit</button>
+      </div>
+
+      <div id="error"></div>
+    </form>
+
+    <script type="text/javascript">
+      const articles = [];
+
+      const btn = document.getElementById("add-article");
+      btn.addEventListener("click", addArticle);
+
+      function addArticle(e) {
+        e.preventDefault();
+        let errorMessages = [];
+        const article = {};
+      
+        const title = document.getElementById("title").value.trim();
+        const content = document.getElementById("content").value.trim();
+        const category = document.getElementById("category").value;
+        const isPublished = document.getElementById("is_published").checked;
+      
+        const errorDiv = document.getElementById("error");
+        errorDiv.innerHTML = "";
+      
+        if (!title) errorMessages.push("title is empty ");
+        if (!content) errorMessages.push("content is empty ");
+      
+        if (errorMessages.length > 0) {
+          errorDiv.innerHTML = errorMessages.map(msg => `<p>${msg}</p>`).join("") + "<p></p>";
+        } else {
+          article.title = title;
+          article.content = content;
+          article.category = category;
+          article.isPublished = isPublished;
+      
+          articles.push(article);
+          displayArticles(articles);
+      
+          document.getElementById("title").value = "";
+          document.getElementById("content").value = "";
+          document.getElementById("category").value = "Technology";
+          document.getElementById("is_published").checked = false;
+        }
+      }
+      
+      function displayArticles(articles) {
+        const existingContainer = document.querySelector(".articles");
+        if (existingContainer) {
+          document.body.removeChild(existingContainer);
+        }
+        const articlesContainer = document.createElement("div");
+        articlesContainer.classList.add("articles");
+
+        articles.forEach((article, index) => {
+          const articleDiv = document.createElement("div");
+          articleDiv.classList.add("article");
+
+          const title = document.createElement("h3");
+          title.textContent = article.title;
+
+          const category = document.createElement("p");
+          category.textContent = "Category: " + article.category;
+
+          const status = document.createElement("p");
+          status.textContent = "Status: " + (article.isPublished ? "Published" : "Draft");
+
+          const deleteIcon = document.createElement("i");
+          deleteIcon.classList.add("fas", "fa-trash-alt", "delete-icon");
+          deleteIcon.addEventListener("click", () => {
+            articles.splice(index, 1);
+            displayArticles(articles);
+          });
+
+          articleDiv.appendChild(title);
+          articleDiv.appendChild(category);
+          articleDiv.appendChild(status);
+          articleDiv.appendChild(deleteIcon);
+          articlesContainer.appendChild(articleDiv);
+        });
+
+        document.body.appendChild(articlesContainer);
+      }
+    </script>
+  </body>
+</html>
+
+//REACT CODE
+// PatientForm.js
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+ 
+const PatientForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    dob: '',
+    medicalHistory: '',
+    currentMedications: '',
+  });
+ 
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+ 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: '' });
+  };
+ 
+  const validate = (data) => {
+    const errors = {};
+    if (!data.name.trim()) errors.name = 'Name is required';
+    if (!data.dob) errors.dob = 'Date of Birth is required';
+    else if (new Date(data.dob) > new Date()) {
+      errors.dob = 'Date of Birth cannot be a future date';
+    }
+    return errors;
+  };
+ 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      navigate('/error');
+    } else {
+      setErrors({});
+      navigate('/welcome');
+    }
+  };
+ 
+  return (
+    <div className="form-container">
+      <h1>Patient Registration</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+          {errors.name && <p>{errors.name}</p>}
+        </div>
+        <div>
+          <label htmlFor="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} />
+          {errors.dob && <p>{errors.dob}</p>}
+        </div>
+        <div>
+          <label htmlFor="medicalHistory">Medical History:</label>
+          <textarea id="medicalHistory" name="medicalHistory" value={formData.medicalHistory} onChange={handleChange}></textarea>
+        </div>
+        <div>
+          <label htmlFor="currentMedications">Current Medications:</label>
+          <input type="text" id="currentMedications" name="currentMedications" value={formData.currentMedications} onChange={handleChange} />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+ 
+export default PatientForm;
+ 
+ 
+import React from 'react';
+ 
+const ErrorPage = () => {
+  return <h1>Error: Invalid form submission</h1>;
+};
+ 
+export default ErrorPage;
+ 
+ 
+ 
+// WelcomePage.js
+ 
+import React from 'react';
+ 
+const WelcomePage = () => {
+  return <h1>Welcome! Patient registered successfully.</h1>;
+};
+ 
+export default WelcomePage;
